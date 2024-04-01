@@ -58,7 +58,8 @@ def get_recipe_by_title_query(recipe_title_query: str, response: Response):
         return "[ERR]NOT-FOUND - The provided recipe does not exist"
     return result
 
-@app.put("/recipes")
+
+@app.put("/recipes", status_code=status.HTTP_501_NOT_IMPLEMENTED)
 async def update_recipe():
     pass
 
