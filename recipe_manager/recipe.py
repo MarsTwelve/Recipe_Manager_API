@@ -6,13 +6,12 @@ class Recipe:
         self.category = category
         self.ingredients = []
 
-    def create_new_recipe(self):
-        self.add_ingredients()
+    @property
+    def show_recipe(self):
         recipe = {"recipe_title": self.title,
                   "recipe_description": self.description,
                   "recipe_instructions": self.instructions,
-                  "recipe_category": self.category,
-                  "ingredients": self.ingredients}
+                  "recipe_category": self.category}
         return recipe
 
     def add_ingredients(self):
