@@ -14,8 +14,8 @@ class Recipe:
                   "recipe_category": self.category}
         return recipe
 
-    def add_ingredients(self):
-        for ingredient in self.ingredients_list:
+    def add_ingredients(self, ingredients):
+        for ingredient in ingredients:
             self.ingredients.append(Ingredients(ingredient["ingredient"], ingredient["quantity"]))
 
 
