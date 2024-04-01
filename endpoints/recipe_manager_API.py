@@ -39,11 +39,24 @@ async def create_recipe(recipe: RecipeModel, response: Response):
     return commit
 
 
+@app.get("/recipes", status_code=status.HTTP_200_OK)
+def get_recipes(response: Response):
+    result = sqlalchemy_select_all()
+    try:
+        first_item = next(result)
+    except StopIteration:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return "[ERR]NOT-FOUND - No recipes found on the database"
+    return result
 
-@app.get("/recipes")
-async def get_recipes():
-    return "recipes func goes here"
 
+@app.get("/recipes/recipe_title", status_code=status.HTTP_200_OK)
+def get_recipe_by_title_query(recipe_title_query: str, response: Response):
+    result = sqlalchemy_select_query_by_title(recipe_title_query)
+    if result[0] is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return "[ERR]NOT-FOUND - The provided recipe does not exist"
+    return result
 
 @app.put("/recipes")
 async def update_recipe():
