@@ -5,9 +5,8 @@ class UnitConverter:
 
     def __init__(self, ingredients_list):
         self.ingredients_list = ingredients_list
-        self.quantity = None
-        self.unit = None
-        self.converted_units = []
+        self.quantity = [] # The actual number
+        self.unit = [] # Unit the number is measured by (raw)
 
     def parse_unit(self, quantity_unit):
         quantity = re.findall(r'\d+', quantity_unit)
