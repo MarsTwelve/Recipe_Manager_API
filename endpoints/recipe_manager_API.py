@@ -13,7 +13,7 @@ app = FastAPI()
 
 class IngredientModel(BaseModel):
     ingredient: str
-    quantity: float
+    quantity: str
 
 
 class RecipeModel(BaseModel):
