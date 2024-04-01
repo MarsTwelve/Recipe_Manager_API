@@ -8,14 +8,14 @@ class UnitConverter:
         self.quantity = [] # The actual number
         self.unit = [] # Unit the number is measured by (raw)
 
-    def parse_unit(self, quantity_unit):
+    def parse_ingredients_list(self, quantity_unit):
         quantity = re.findall(r'\d+', quantity_unit)
         if len(quantity) >= 2:
             quantity = quantity[0] + "." + quantity[1]
-            self.quantity = float(quantity)
+            self.quantity.append(float(quantity))
         else:
-            self.quantity = int(quantity[0])
-        self.unit = quantity_unit[len(quantity_unit) - 2] + quantity_unit[len(quantity_unit) - 1]
+            self.quantity.append(int(quantity[0]))
+        self.unit.append(quantity_unit[len(quantity_unit) - 2] + quantity_unit[len(quantity_unit) - 1])
 
     def get_unit(self):
         for ingredients in self.ingredients_list:
