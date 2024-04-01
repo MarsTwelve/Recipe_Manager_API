@@ -24,11 +24,20 @@ class RecipeModel(BaseModel):
     category: str
 
 
-@app.post("/recipes")
-async def create_recipe(recipe: RecipeModel):
-    recipe_obj = Recipe(recipe.title, recipe.description, recipe.instructions,
-                        recipe.category, recipe.ingredients)
-    return recipe_obj.create_new_recipe()
+@app.post("/recipes", status_code=status.HTTP_201_CREATED)
+async def create_recipe(recipe: RecipeModel, response: Response):
+    recipe_dump = recipe.model_dump()
+    recipe_obj = Recipe(recipe_dump["title"],
+                        recipe_dump["description"],
+                        recipe_dump["instructions"],
+                        recipe_dump["category"])
+    recipe_obj.add_ingredients(recipe_dump["ingredients"])
+    if validate_if_insert_query_already_exists(recipe_dump["title"]):
+        response.status_code = status.HTTP_409_CONFLICT
+        return "[WARN]DUPLICATE - This recipe already exists"
+    commit = sqlalchemy_insert(recipe_obj)
+    return commit
+
 
 
 @app.get("/recipes")
