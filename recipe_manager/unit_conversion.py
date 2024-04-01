@@ -19,13 +19,13 @@ class UnitConverter:
 
     def get_unit(self):
         for ingredients in self.ingredients_list:
-            quantity_unit = ingredients["quantity"]
+            quantity_unit = ingredients.quantity
             if "lb" in quantity_unit:
-                self.parse_unit(quantity_unit)
-                self.converted_units.append(self.convert_pounds_to_grams)
+                self.parse_ingredients_list(quantity_unit)
+                # Change later for a convert method
             if "oz" in quantity_unit:
-                self.parse_unit(quantity_unit)
-                self.converted_units.append(self.convert_ounces_to_grams)
+                self.parse_ingredients_list(quantity_unit)
+                # Change later for a convert method
 
     @property
     def convert_pounds_to_grams(self):
