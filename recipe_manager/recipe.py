@@ -24,5 +24,8 @@ class Ingredients:
         self.ingredient = ingredient
         self.quantity = quantity
 
-    def __str__(self):
-        return f"{self.ingredient}, {self.quantity}"
+    def __getitem__(self, item):
+        if item == "ingredient":
+            return self.ingredient
+        if item == "quantity":
+            return self.quantity
