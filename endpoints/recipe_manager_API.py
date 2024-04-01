@@ -64,6 +64,6 @@ async def update_recipe():
     pass
 
 
-@app.delete("/recipes")
+@app.delete("/recipes", status_code=status.HTTP_501_NOT_IMPLEMENTED)
 async def delete_recipe():
     pass
