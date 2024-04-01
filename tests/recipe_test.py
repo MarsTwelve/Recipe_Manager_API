@@ -17,9 +17,9 @@ def test_create_recipe_function():
                                    {"ingredient": "eggs",
                                     "quantity": "4_gr"}]}
     recipe_obj = Recipe(recipe_dict["title"], recipe_dict["description"], recipe_dict["instructions"],
-                        recipe_dict["category"], recipe_dict["ingredients"])
-    assert_that(recipe_obj.create_new_recipe(), equal_to({"recipe_title": "apple pie",
-                                                          "recipe_description": "A basic american apple pie",
-                                                          "recipe_instructions": "BIG STRING",
-                                                          "recipe_category": "pie",
-                                                          "ingredients": recipe_obj.ingredients}))
+                        recipe_dict["category"])
+    recipe_obj.add_ingredients(recipe_dict["ingredients"])
+    assert_that(recipe_obj.show_recipe, equal_to({"recipe_title": "apple pie",
+                                                  "recipe_description": "A basic american apple pie",
+                                                  "recipe_instructions": "BIG STRING",
+                                                  "recipe_category": "pie"}))
