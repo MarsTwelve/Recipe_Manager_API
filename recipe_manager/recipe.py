@@ -1,10 +1,9 @@
 class Recipe:
-    def __init__(self, title, description, instructions, category, ingredients_list):
+    def __init__(self, title, description, instructions, category):
         self.title = title
         self.description = description
         self.instructions = instructions
         self.category = category
-        self.ingredients_list = ingredients_list
         self.ingredients = []
 
     def create_new_recipe(self):
