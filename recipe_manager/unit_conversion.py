@@ -29,10 +29,14 @@ class UnitConverter:
 
     @property
     def convert_pounds_to_grams(self):
-        grams = self.quantity * 453.6
-        return round(grams)
+        converted = []
+        for quantity in self.quantity:
+            converted.append(round(quantity * 453.6))
+        return converted
 
     @property
     def convert_ounces_to_grams(self):
-        grams = self.quantity * 28.35
-        return round(grams)
+        converted = []
+        for quantity in self.quantity:
+            converted.append(round(quantity * 28.35))
+        return converted
