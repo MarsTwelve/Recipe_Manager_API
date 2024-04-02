@@ -50,7 +50,7 @@ def get_recipes(response: Response):
     return result
 
 
-@app.get("/recipes/recipe_title", status_code=status.HTTP_200_OK)
+@app.get("/recipes/{recipe_title}", status_code=status.HTTP_200_OK)
 def get_recipe_by_title_query(recipe_title_query: str, response: Response):
     result = sqlalchemy_select_query_by_title(recipe_title_query)
     if result[0] is None:
