@@ -30,7 +30,7 @@ class Recipe:
     """
     def __init__(self, title, description, instructions, category):
         """
-        Constructs all the necessary objects to make a Recipe object.
+        Initializes all the necessary class variables to make a Recipe object.
 
         Parameters
         -----------
@@ -55,10 +55,10 @@ class Recipe:
         Returns a python dict of the given recipe
         :return:
             returns a python dict of the given recipe object
-            Eg: {"recipe_title": self.title,
-                "recipe_description": self.description,
-                "recipe_instructions": self.instructions,
-                "recipe_category": self.category}
+            Eg: {"recipe_title": self. title,
+                "recipe_description": self. description,
+                "recipe_instructions": self. instructions,
+                "recipe_category": self. category}
         """
         recipe = {"recipe_title": self.title,
                   "recipe_description": self.description,
@@ -95,6 +95,16 @@ class Ingredients:
 
     """
     def __init__(self, ingredient, quantity):
+        """
+        Initializes all the necessary class variables to make a Recipe object.
+
+        Parameters
+        ----------
+        :param ingredient: str
+            The actual name of the ingredient
+        :param quantity: str
+            The quantity of said ingredient, accompanied by its respective unit, denoting witch unit the quantity is in
+        """
         self.ingredient = ingredient
         self.quantity = quantity
 
