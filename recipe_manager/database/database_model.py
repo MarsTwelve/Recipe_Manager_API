@@ -7,7 +7,7 @@ class Base(DeclarativeBase):
     pass
 
 
-class Recipe(Base):
+class RecipeModel(Base):
     __tablename__ = "recipe_information"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -16,10 +16,10 @@ class Recipe(Base):
     recipe_instructions: Mapped[str] = mapped_column(String(450))
     recipe_category: Mapped[str] = mapped_column(String(15))
 
-    ingredients: Mapped[List["Ingredients"]] = relationship(back_populates="recipe")
+    ingredients: Mapped[List["IngredientsModel"]] = relationship(back_populates="recipe", cascade="all, delete-orphan")
 
 
-class Ingredients(Base):
+class IngredientsModel(Base):
     __tablename__ = "ingredients"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -27,7 +27,4 @@ class Ingredients(Base):
     quantity: Mapped[str] = mapped_column(String(15))
     recipe_id = mapped_column(ForeignKey("recipe_information.id"))
 
-    recipe: Mapped[Recipe] = relationship(back_populates="ingredients")
-
-
-Base.metadata.create_all(engine)
+    recipe: Mapped["RecipeModel"] = relationship(back_populates="ingredients")
