@@ -1,7 +1,6 @@
 from sqlalchemy import String, ForeignKey
 from typing import List
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from recipe_manager.database.recipe_manager_database_session import engine
 
 
 class Base(DeclarativeBase):
