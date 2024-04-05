@@ -1,13 +1,9 @@
 from typing import List
 from fastapi import FastAPI, status, Response
-
+from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from recipe_manager.recipe import Recipe
-from recipe_manager.database.recipe_manager_database import (sqlalchemy_insert,
-                                                             sqlalchemy_select_all,
-                                                             sqlalchemy_select_query_by_title,
-                                                             validate_if_insert_query_already_exists)
-
+from recipe_manager.database.database import Database
 app = FastAPI()
 
 
@@ -26,6 +22,8 @@ class RecipeModel(BaseModel):
 
 @app.post("/recipes", status_code=status.HTTP_201_CREATED)
 async def create_recipe(recipe: RecipeModel, response: Response):
+    db = Database()
+    session = Session(db.engine)
     recipe_dump = recipe.model_dump()
     recipe_obj = Recipe(recipe_dump["title"],
                         recipe_dump["description"],
@@ -35,19 +33,21 @@ async def create_recipe(recipe: RecipeModel, response: Response):
     if validate_if_insert_query_already_exists(recipe_dump["title"]):
         response.status_code = status.HTTP_409_CONFLICT
         return "[WARN]DUPLICATE - This recipe already exists"
-    commit = sqlalchemy_insert(recipe_obj)
+    commit = db.sqlalchemy_insert(recipe_obj, recipe_obj.ingredients, session)
     return commit
 
 
 @app.get("/recipes", status_code=status.HTTP_200_OK)
 def get_recipes(response: Response):
-    result = sqlalchemy_select_all()
+    db = Database()
+    session = Session(db.engine)
+    result = Database.sqlalchemy_select_all(session=session)
     try:
         first_item = next(result)
     except StopIteration:
         response.status_code = status.HTTP_404_NOT_FOUND
         return "[ERR]NOT-FOUND - No recipes found on the database"
-    return result
+    return first_item, result
 
 
 @app.get("/recipes/{recipe_title}", status_code=status.HTTP_200_OK)
