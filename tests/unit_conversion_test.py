@@ -1,47 +1,6 @@
-import pytest
 from hamcrest import assert_that, equal_to
 from recipe_manager.unit_conversion import UnitConverter
-from recipe_manager.recipe import Recipe
 
-
-@pytest.fixture
-def create_instance_of_object_recipe_in_lbs():
-    recipe_dict = {"title": "apple pie",
-                   "description": "A basic american apple pie",
-                   "instructions": "BIG STRING",
-                   "category": "pie",
-                   "ingredients": [{"ingredient": "apple",
-                                    "quantity": "1_lb"},
-                                   {"ingredient": "flour",
-                                    "quantity": "0.55_lb"},
-                                   {"ingredient": "milk",
-                                    "quantity": "0.55_lb"},
-                                   {"ingredient": "eggs",
-                                    "quantity": "0.8_lb"}]}
-    recipe_obj = Recipe(recipe_dict["title"], recipe_dict["description"], recipe_dict["instructions"],
-                        recipe_dict["category"])
-    recipe_obj.add_ingredients(recipe_dict["ingredients"])
-    return recipe_obj
-
-
-@pytest.fixture
-def create_instance_of_object_recipe_in_oz():
-    recipe_dict = {"title": "apple pie",
-                   "description": "A basic american apple pie",
-                   "instructions": "BIG STRING",
-                   "category": "pie",
-                   "ingredients": [{"ingredient": "pasta",
-                                    "quantity": "17.6_oz"},
-                                   {"ingredient": "sour cream",
-                                    "quantity": "8.8_oz"},
-                                   {"ingredient": "cream cheese",
-                                    "quantity": "8.8'_oz"},
-                                   {"ingredient": "milk",
-                                    "quantity": "14_oz"}]}
-    recipe_obj = Recipe(recipe_dict["title"], recipe_dict["description"], recipe_dict["instructions"],
-                        recipe_dict["category"])
-    recipe_obj.add_ingredients(recipe_dict["ingredients"])
-    return recipe_obj
 
 
 def test_unit_converter_parser_oz(create_instance_of_object_recipe_in_oz):
