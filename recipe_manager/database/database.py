@@ -113,35 +113,40 @@ class Database:
             session.commit()
 
         # Confirm deletion
-        # results_post_deletion = session.execute(stmt)
-        # recipes_post_deletion = results_post_deletion.all()
-        #
-        # if not recipes_post_deletion:
-        #      print("All tasks deleted")
-        # else:
-        #     raise Exception("[ERR] - Tasks were not deleted")
-        #
+        results_post_deletion = session.execute(stmt)
+        recipes_post_deletion = results_post_deletion.all()
 
-    # def sqlalchemy_delete_recipe(self, query_param, session: Session):
-    #     """
-    #     Deletes a recipe from the database
-    #
-    #     Parameters
-    #     ----------
-    #     :param:query_param: str
-    #         The parameter used to make the query statement, for now, recipe title is used
-    #     :param:session (Session)
-    #         The database session used to execute the SQL statements
-    #     """
-    #     stmt = select(RecipeModel).where(RecipeModel.recipe_title == query_param)
-    #     result = session.execute(stmt)
-    #     recipe = result.first()
-    #
-    #     if recipe:
-    #         # Delete the recipe
-    #         session.delete(recipe)
-    #         session.commit()
-    #
-    #         # Confirm deletion
-    #         result_post_deletion = session.execute(stmt)
-    #         recipe_post_deletion = result_post_deletion.first()
+        if not recipes_post_deletion:
+            print("All recipes deleted")
+        else:
+            raise Exception("[ERR] - Recipes were not deleted")
+
+    def sqlalchemy_delete_recipe(self, query_param, session: Session):
+        """
+        Deletes a recipe from the database
+
+        Parameters
+        ----------
+        :param:query_param: str
+            The parameter used to make the query statement, for now, recipe title is used
+        :param:session (Session)
+            The database session used to execute the SQL statements
+        """
+        stmt = select(RecipeModel).where(RecipeModel.recipe_title == query_param)
+        result = session.execute(stmt)
+        recipe = result.scalar()
+
+        if recipe:
+            # Delete the recipe
+            session.delete(recipe)
+            session.commit()
+
+            # Confirm deletion
+            result_post_deletion = session.execute(stmt)
+            recipe_post_deletion = result_post_deletion.first()
+            if recipe_post_deletion is None:
+                print("Recipe was successfully deleted")
+            else:
+                raise Exception("[ERR] - Recipes were not deleted")
+        else:
+            raise RecipeNotFoundError
