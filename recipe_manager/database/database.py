@@ -74,10 +74,26 @@ class Database:
         select_all_stmt = select(RecipeModel).order_by(RecipeModel.id)
         result = session.execute(select_all_stmt)
         for row in result.all():
-            yield {"Recipe": row.RecipeModel.recipe_title,
-                   "Description": row.RecipeModel.recipe_description,
-                   f"Category": row.RecipeModel.recipe_category,
-                   f"Instructions": row.RecipeModel.recipe_instructions}
+            yield {
+                "Recipe": row.RecipeModel.recipe_title,
+                "Description": row.RecipeModel.recipe_description,
+                "Category": row.RecipeModel.recipe_category,
+                "Instructions": row.RecipeModel.recipe_instructions
+            }
+
+    def sqlalchemy_update_recipe_title(self, recipe_title, update_attr, update_param, session: Session):
+        """
+        Updates a specific recipe on the database
+        """
+        recipe_to_update = session.execute(select(RecipeModel).where(RecipeModel.recipe_title == recipe_title)).scalar()
+        print(recipe_to_update.recipe_title) # Title before update
+        recipe_id = recipe_to_update.id
+        recipe_to_update.recipe_title = update_param
+        setattr(recipe_to_update, update_attr, update_param)
+        recipe_updated = session.execute(select(RecipeModel).where(RecipeModel.id == recipe_id)).scalar()
+        print(recipe_updated.recipe_title) # Title after update
+        return recipe_updated
+
 
     def sqlalchemy_delete_all(self, session: Session):
         """
