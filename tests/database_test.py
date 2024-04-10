@@ -54,7 +54,6 @@ def test_database_update_recipe_title_db(database_empty_instance, database_sessi
                                                                             "cranberry_pie",
                                                                             database_session)
 
-def test_database_update_recipe_title_db(database_empty_instance, database_session, create_recipe_object_using_lbs):
     assert_that(updated_recipe.recipe_title, equal_to("cranberry_pie"))
 
 
@@ -73,3 +72,33 @@ def test_database_update_recipe_description_db(database_empty_instance, database
     assert_that(updated_recipe.recipe_description, equal_to("new description hah"))
 
 
+def test_database_delete_function_db(database_empty_instance, database_session, create_recipe_object_using_oz,
+                                     create_recipe_object_using_lbs):
+    """
+    Test deleting a recipe from the database
+    """
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_oz,
+                                                     database_session)
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_lbs,
+                                                     database_session)
+
+    database_empty_instance.sqlalchemy_delete_recipe("white sauce pasta", database_session)
+
+    with pytest.raises(RecipeNotFoundError):
+        database_empty_instance.sqlalchemy_select_query_by_title("white sauce pasta", database_session)
+
+
+def test_database_delete_all_function_db(database_empty_instance, database_session, create_recipe_object_using_oz,
+                                         create_recipe_object_using_lbs):
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_oz,
+                                                     database_session)
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_lbs,
+                                                     database_session)
+
+    database_empty_instance.sqlalchemy_delete_all(database_session)
+
+    recipes = database_empty_instance.sqlalchemy_select_all(database_session)
+    recipes_list = []
+    for recipe in recipes:
+        recipes_list.append(recipe)
+    assert_that(len(recipes_list), equal_to(0))
