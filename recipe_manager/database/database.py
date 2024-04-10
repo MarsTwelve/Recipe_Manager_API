@@ -59,14 +59,16 @@ class Database:
                                           .order_by(RecipeModel.id)))
         result_raw = session.execute(select_query_ingredients_stmt)
         result = result_raw.scalar()
-        recipe = {"recipe_title": result.recipe_title,
-                  "recipe_description": result.recipe_description,
-                  "recipe_instructions": result.recipe_instructions,
-                  "recipe_category": result.recipe_category}
-        ingredient_quantity = {}
-        for row in result.ingredients:
-            ingredient_quantity[row.ingredient] = row.quantity
-        return recipe, ingredient_quantity
+        if result:
+            recipe = {"recipe_title": result.recipe_title,
+                      "recipe_description": result.recipe_description,
+                      "recipe_instructions": result.recipe_instructions,
+                      "recipe_category": result.recipe_category}
+            ingredient_quantity = {}
+            for row in result.ingredients:
+                ingredient_quantity[row.ingredient] = row.quantity
+            return recipe, ingredient_quantity
+        raise RecipeNotFoundError
 
     def sqlalchemy_select_all(self, session: Session):
         select_all_stmt = select(RecipeModel).order_by(RecipeModel.id)
