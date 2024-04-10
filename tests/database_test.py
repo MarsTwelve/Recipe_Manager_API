@@ -24,15 +24,13 @@ def test_insert_and_read_recipe_db(database_empty_instance, database_session, cr
 def test_select_all_recipes_db(database_empty_instance, database_session, create_recipe_object_using_oz,
                                create_recipe_object_using_lbs):
     """
-    Test selecting a single recipe within the database, using a queried parameter
+    Test selecting a single recipe within the database, using a query parameter
     """
     # Calls insert function for the database
-    database_empty_instance.sqlalchemy_insert(create_recipe_object_using_oz,
-                                              create_recipe_object_using_oz.ingredients,
-                                              database_session)
-    database_empty_instance.sqlalchemy_insert(create_recipe_object_using_lbs,
-                                              create_recipe_object_using_lbs.ingredients,
-                                              database_session)
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_oz,
+                                                     database_session)
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_lbs,
+                                                     database_session)
 
     # Calls select all function and uses assert to verify
     recipes = database_empty_instance.sqlalchemy_select_all(database_session)
@@ -43,12 +41,35 @@ def test_select_all_recipes_db(database_empty_instance, database_session, create
     assert_that(recipes_list[0]["Recipe"], equal_to(create_recipe_object_using_oz.title))
     assert_that(recipes_list[1]["Recipe"], equal_to(create_recipe_object_using_lbs.title))
 
-        """
-        Test updating a recipe on the database
-        :param database_empty_instance:
-        :param database_session:
-        :param create_recipe_object_using_oz:
-        :return:
-        """
 
 def test_database_update_recipe_title_db(database_empty_instance, database_session, create_recipe_object_using_lbs):
+    """
+    Test updating a recipe on the database
+    """
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_lbs,
+                                                     database_session)
+
+    updated_recipe = database_empty_instance.sqlalchemy_update_recipe_title("apple pie",
+                                                                            "recipe_title",
+                                                                            "cranberry_pie",
+                                                                            database_session)
+
+def test_database_update_recipe_title_db(database_empty_instance, database_session, create_recipe_object_using_lbs):
+    assert_that(updated_recipe.recipe_title, equal_to("cranberry_pie"))
+
+
+def test_database_update_recipe_description_db(database_empty_instance, database_session, create_recipe_object_using_lbs):
+    """
+    Test updating a recipe on the database
+    """
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_lbs,
+                                                     database_session)
+
+    updated_recipe = database_empty_instance.sqlalchemy_update_recipe_title("apple pie",
+                                                                            "recipe_description",
+                                                                            "new description hah",
+                                                                            database_session)
+
+    assert_that(updated_recipe.recipe_description, equal_to("new description hah"))
+
+
