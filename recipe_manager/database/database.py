@@ -24,18 +24,30 @@ class Database:
         self.engine = create_engine("mysql+pymysql://root:password@localhost/recipe_manager")
         Base.metadata.create_all(self.engine)
 
-    def sqlalchemy_insert(self, recipe_obj, ingredients_list, session: Session):
+    def sqlalchemy_insert_recipe(self, recipe_obj, session: Session):
+        """
+        Inserts Recipe into the database
+
+        Parameters
+        ----------
+        :param recipe_obj: python object
+            Should receive a python object containing all the recipe information
+        :param session: Session
+            Database session object for database operations
+        :return: SQL Model of Recipe (RecipeModel) and inserted recipe id
+            Returns a SQL Model of the RecipeModel class, also returns the inserted recipe id
+        """
         show_recipe = recipe_obj.show_recipe
         db_recipe = RecipeModel(recipe_title=show_recipe["recipe_title"],
                                 recipe_description=show_recipe["recipe_description"],
                                 recipe_instructions=show_recipe["recipe_instructions"],
                                 recipe_category=show_recipe["recipe_category"])
 
-        for ingredients in ingredients_list:
+        for ingredients in recipe_obj.ingredients:
             ingredient = ingredients["ingredient"]
             quantity = ingredients["quantity"]
             db_recipe.ingredients.append(IngredientsModel(ingredient=ingredient, quantity=quantity))
-            session.add(db_recipe)
+        session.add(db_recipe)
         session.commit()
         return session.get(RecipeModel, db_recipe.id)
 
