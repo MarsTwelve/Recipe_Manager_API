@@ -3,15 +3,13 @@ from hamcrest import assert_that, equal_to
 from recipe_manager.exeptions import RecipeNotFoundError
 
 
-@pytest.mark.database_test
-def test_insert_and_read_recipe(database_empty_instance, database_session, create_recipe_object_using_oz):
+def test_insert_and_read_recipe_db(database_empty_instance, database_session, create_recipe_object_using_oz):
     """"
     Test inserting recipes to the database
     """
     # Calls insert function
-    database_empty_instance.sqlalchemy_insert(create_recipe_object_using_oz,
-                                              create_recipe_object_using_oz.ingredients,
-                                              database_session)
+    database_empty_instance.sqlalchemy_insert_recipe(create_recipe_object_using_oz,
+                                                     database_session)
 
     # Calls select functions to assert recipe was properly added
     recipe, ingredients = database_empty_instance.sqlalchemy_select_query_by_title("white sauce pasta",
