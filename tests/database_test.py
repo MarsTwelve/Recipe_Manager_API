@@ -21,9 +21,8 @@ def test_insert_and_read_recipe_db(database_empty_instance, database_session, cr
     assert_that(ingredients, equal_to(ingredient_list))
 
 
-@pytest.mark.database_test
-def test_select_all_recipes(database_empty_instance, database_session, create_recipe_object_using_oz,
-                            create_recipe_object_using_lbs):
+def test_select_all_recipes_db(database_empty_instance, database_session, create_recipe_object_using_oz,
+                               create_recipe_object_using_lbs):
     """
     Test selecting a single recipe within the database, using a queried parameter
     """
@@ -44,8 +43,6 @@ def test_select_all_recipes(database_empty_instance, database_session, create_re
     assert_that(recipes_list[0]["Recipe"], equal_to(create_recipe_object_using_oz.title))
     assert_that(recipes_list[1]["Recipe"], equal_to(create_recipe_object_using_lbs.title))
 
-    @pytest.mark.database_test
-    def test_database_update_function(database_empty_instance, database_session, create_recipe_object_using_oz):
         """
         Test updating a recipe on the database
         :param database_empty_instance:
@@ -53,3 +50,5 @@ def test_select_all_recipes(database_empty_instance, database_session, create_re
         :param create_recipe_object_using_oz:
         :return:
         """
+
+def test_database_update_recipe_title_db(database_empty_instance, database_session, create_recipe_object_using_lbs):
