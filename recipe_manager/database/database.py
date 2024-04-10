@@ -1,9 +1,10 @@
 """
 Main Database Operations for the Recipe Manager
 """
-from sqlalchemy import create_engine, select, delete
+from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from recipe_manager.database.database_model import RecipeModel, IngredientsModel, Base
+from recipe_manager.exeptions import RecipeNotFoundError
 
 
 # SQLAlchemy validation, move to different file later ?
