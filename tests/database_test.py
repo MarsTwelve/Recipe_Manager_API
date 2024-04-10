@@ -1,5 +1,6 @@
 import pytest
 from hamcrest import assert_that, equal_to
+from recipe_manager.exeptions import RecipeNotFoundError
 
 
 @pytest.mark.database_test
