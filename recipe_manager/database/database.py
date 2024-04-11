@@ -56,8 +56,7 @@ class Database:
                                           .join(RecipeModel.ingredients)
                                           .where(RecipeModel.recipe_title == query_param)
                                           .order_by(RecipeModel.id)))
-        result_raw = session.execute(select_query_ingredients_stmt)
-        result = result_raw.scalar()
+        result = session.execute(select_query_ingredients_stmt).scalar()
         if result:
             recipe = {"recipe_title": result.recipe_title,
                       "recipe_description": result.recipe_description,
