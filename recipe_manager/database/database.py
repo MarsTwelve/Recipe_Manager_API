@@ -51,7 +51,6 @@ class Database:
         session.commit()
         return session.get(RecipeModel, db_recipe.id)
 
-    #    .options(contains_eager(RecipeModel.ingredients))
     def sqlalchemy_select_query_by_title(self, query_param, session: Session):
         select_query_ingredients_stmt = ((select(RecipeModel)
                                           .join(RecipeModel.ingredients)
@@ -86,12 +85,10 @@ class Database:
         Updates a specific recipe on the database
         """
         recipe_to_update = session.execute(select(RecipeModel).where(RecipeModel.recipe_title == recipe_title)).scalar()
-        print(recipe_to_update.recipe_title) # Title before update
         recipe_id = recipe_to_update.id
         recipe_to_update.recipe_title = update_param
         setattr(recipe_to_update, update_attr, update_param)
         recipe_updated = session.execute(select(RecipeModel).where(RecipeModel.id == recipe_id)).scalar()
-        print(recipe_updated.recipe_title) # Title after update
         return recipe_updated
 
 

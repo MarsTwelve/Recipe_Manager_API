@@ -35,6 +35,7 @@ def test_select_all_recipes_db(database_empty_instance, database_session, create
     # Calls select all function and uses assert to verify
     recipes = database_empty_instance.sqlalchemy_select_all(database_session)
     recipes_list = []
+
     for recipe in recipes:
         recipes_list.append(recipe)
     assert_that(len(recipes_list), equal_to(2))
