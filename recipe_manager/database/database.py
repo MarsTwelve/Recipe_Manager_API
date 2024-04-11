@@ -32,8 +32,12 @@ class Database:
         ----------
         :param recipe_obj: python object
             Should receive a python object containing all the recipe information
-        :param session: Session
+        :param session: (Session)
+            The database session used to execute the SQL statements
             Database session object for database operations
+
+        Returns
+        -------
         :return: SQL Model of Recipe (RecipeModel) and inserted recipe id
             Returns a SQL Model of the RecipeModel class, also returns the inserted recipe id
         """
@@ -52,6 +56,21 @@ class Database:
         return session.get(RecipeModel, db_recipe.id)
 
     def sqlalchemy_select_query_by_title(self, query_param, session: Session):
+        """
+        Performs a select on the database using the given query parameter, to find specific documents
+
+        Parameters
+        ----------
+        :param query_param: str
+            The parameter that will be used inside the query
+        :param session: (Session)
+            The database session used to execute the SQL statements
+        :return: recipe: dict
+            returns a dictionary containing information about the recipe, such as: Title, Description, Instructions and
+            Category
+        :return ingredient_quantity: dict
+            Returns a dictionary containing information about the ingredients and their quantities
+        """
         select_query_ingredients_stmt = ((select(RecipeModel)
                                           .join(RecipeModel.ingredients)
                                           .where(RecipeModel.recipe_title == query_param)
@@ -69,6 +88,15 @@ class Database:
         raise RecipeNotFoundError
 
     def sqlalchemy_select_all(self, session: Session):
+        """
+        Selects all recipes inside the database
+
+
+        :param session: (Session)
+        :return
+            Yields the results retrieved from the database in the form of dicts, containing recipe information such as:
+            Title, Description, Category, Instructions
+        """
         select_all_stmt = select(RecipeModel).order_by(RecipeModel.id)
         result = session.execute(select_all_stmt)
         for row in result.all():
@@ -82,6 +110,19 @@ class Database:
     def sqlalchemy_update_recipe_title(self, recipe_title, update_attr, update_param, session: Session):
         """
         Updates a specific recipe on the database
+
+        Parameters
+        ----------
+        :param recipe_title: str
+            The title of the recipe, used to search for a specific recipe, like a query parameter
+        :param update_attr: str
+            The name of the attribute to be updated
+        :param update_param: str
+            The actual update that will be performed into the database
+        :param session: (Session)
+            The database session used to execute the SQL statements
+        :return
+            Returns instance of RecipeModel containing the already updated attributes
         """
         recipe_to_update = session.execute(select(RecipeModel).where(RecipeModel.recipe_title == recipe_title)).scalar()
         recipe_id = recipe_to_update.id
@@ -97,8 +138,8 @@ class Database:
 
         Parameters
         ----------
-        :param session:
-            The database session
+        :param session: (Session)
+            The database session used to execute the SQL statements
         :return:
             None
         """
@@ -123,10 +164,12 @@ class Database:
 
         Parameters
         ----------
-        :param:query_param: str
+        :param query_param: str
             The parameter used to make the query statement, for now, recipe title is used
-        :param:session (Session)
+        :param session (Session)
             The database session used to execute the SQL statements
+        :return
+            None
         """
         stmt = select(RecipeModel).where(RecipeModel.recipe_title == query_param)
         result = session.execute(stmt)
