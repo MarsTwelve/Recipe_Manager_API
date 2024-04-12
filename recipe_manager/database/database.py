@@ -7,16 +7,6 @@ from recipe_manager.database.database_model import RecipeModel, IngredientsModel
 from recipe_manager.exeptions import RecipeNotFoundError
 
 
-# SQLAlchemy validation, move to different file later ?
-# def validate_if_insert_query_already_exists(recipe_title):
-#     select_validate_recipe_stmt = select(Recipe).where(Recipe.recipe_title == recipe_title)
-#     with Session() as session:
-#         validate_result = session.execute(select_validate_recipe_stmt)
-#         if validate_result.scalar() is None:
-#             return False
-#         return True
-
-
 class Database:
 
     def __init__(self):
@@ -184,7 +174,7 @@ class Database:
             result_post_deletion = session.execute(stmt)
             recipe_post_deletion = result_post_deletion.first()
             if recipe_post_deletion is None:
-                print("Recipe was successfully deleted")
+                return "Recipe was successfully deleted"
             else:
                 raise Exception("[ERR] - Recipes were not deleted")
         else:
