@@ -105,9 +105,25 @@ def get_recipe_by_title_query(recipe_title_query: str, response: Response):
     return result
 
 
-@app.put("/recipes", status_code=status.HTTP_501_NOT_IMPLEMENTED)
-async def update_recipe():
-    pass
+@app.patch("/recipes", status_code=status.HTTP_200_OK)
+async def patch_update_recipe(update_recipe: UpdateRecipe, response: Response):
+    db = Database()
+    session = Session(db.engine)
+    update_parameters = update_recipe.model_dump()
+    if validate_if_document_exists(update_parameters["title"], session):
+        if validate_if_update_attr_is_valid(update_parameters["update_attr"]):
+            result = db.sqlalchemy_update_recipe_title(update_parameters["title"],
+                                                       update_parameters["update_attr"],
+                                                       update_parameters["update_param"],
+                                                       session)
+            session.close()
+            return result
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        session.close()
+        return "[ERR]INVALID-ATTRIBUTE - This attribute does not exist or doesnt accept update parameters"
+    response.status_code = status.HTTP_204_NO_CONTENT
+    session.close()
+    return "[ERR]NOT-FOUND - The provided recipe does not exist"
 
 
 @app.delete("/recipes", status_code=status.HTTP_501_NOT_IMPLEMENTED)
