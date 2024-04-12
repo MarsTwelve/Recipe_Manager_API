@@ -118,6 +118,7 @@ class Database:
         recipe_id = recipe_to_update.id
         recipe_to_update.recipe_title = update_param
         setattr(recipe_to_update, update_attr, update_param)
+        session.commit()
         recipe_updated = session.execute(select(RecipeModel).where(RecipeModel.id == recipe_id)).scalar()
         return recipe_updated
 
