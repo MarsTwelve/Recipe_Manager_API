@@ -122,7 +122,7 @@ class Database:
         recipe_updated = session.execute(select(RecipeModel).where(RecipeModel.id == recipe_id)).scalar()
         return recipe_updated
 
-
+# FOR TESTING PURPOSES ONLY
     def sqlalchemy_delete_all(self, session: Session):
         """
         Deletes all recipes from the database
