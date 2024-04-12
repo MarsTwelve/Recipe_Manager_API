@@ -70,10 +70,10 @@ async def create_recipe(recipe: RecipeModel, response: Response):
                         recipe_dump["instructions"],
                         recipe_dump["category"])
     recipe_obj.add_ingredients(recipe_dump["ingredients"])
-    if validate_if_insert_query_already_exists(recipe_dump["title"]):
+    if validate_if_document_exists(recipe_dump["title"], session):
         response.status_code = status.HTTP_409_CONFLICT
         return "[WARN]DUPLICATE - This recipe already exists"
-    commit = db.sqlalchemy_insert(recipe_obj, recipe_obj.ingredients, session)
+    commit = db.sqlalchemy_insert_recipe(recipe_obj, session)
     return commit
 
 
@@ -81,7 +81,7 @@ async def create_recipe(recipe: RecipeModel, response: Response):
 def get_recipes(response: Response):
     db = Database()
     session = Session(db.engine)
-    result = Database.sqlalchemy_select_all(session=session)
+    result = db.sqlalchemy_select_all(session)
     try:
         first_item = next(result)
     except StopIteration:
