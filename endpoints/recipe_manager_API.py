@@ -126,6 +126,14 @@ async def patch_update_recipe(update_recipe: UpdateRecipe, response: Response):
     return "[ERR]NOT-FOUND - The provided recipe does not exist"
 
 
-@app.delete("/recipes", status_code=status.HTTP_501_NOT_IMPLEMENTED)
-async def delete_recipe():
-    pass
+@app.delete("/recipes", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_recipe(recipe_title_query: str, response: Response):
+    db = Database()
+    session = Session(db.engine)
+    if validate_if_document_exists(recipe_title_query, session):
+        result = db.sqlalchemy_delete_recipe(recipe_title_query, session)
+        session.close()
+        return result
+    response.status_code = status.HTTP_204_NO_CONTENT
+    session.close()
+    return "[ERR]NOT-FOUND - The provided recipe does not exist"
