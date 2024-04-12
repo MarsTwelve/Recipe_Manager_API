@@ -4,9 +4,43 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from recipe_manager.recipe import Recipe
 from recipe_manager.database.database import Database
-app = FastAPI()
+from recipe_manager.database.database_validation import (validate_if_document_exists,
+                                                         validate_if_update_attr_is_valid)
+
+description = """
+Recipe Manager API helps you manage all of your recipes
+
+## Recipes
+
+You will be able to:
+
+**Create Recipes**
+**Read Recipes**
+**Update Created Recipes**
+**Delete Recipes**
+"""
+
+app = FastAPI(title="Recipe_Manager_API",
+              description=description,
+              summary="A recipe manager to manage recipes",
+              version="0.7",
+              terms_of_service="https://example.com/tos",
+              contact={
+                  "name": "Matheus S. Fernandes",
+                  "url": "https://example.com/contact-us",
+                  "email": "matheusfer33@hotmail.com"
+              },
+              license_info={
+                  "name": "General Public Use V3.0",
+                  "identifier": "GNU GPL"
+              })
+
+metadata_tags = [
+
+]
 
 
+# Add unity later and change quantity back to float type
 class IngredientModel(BaseModel):
     ingredient: str
     quantity: str
