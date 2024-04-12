@@ -54,6 +54,12 @@ class RecipeModel(BaseModel):
     category: str
 
 
+class UpdateRecipe(BaseModel):
+    title: str
+    update_attr: str
+    update_param: str
+
+
 @app.post("/recipes", status_code=status.HTTP_201_CREATED)
 async def create_recipe(recipe: RecipeModel, response: Response):
     db = Database()
