@@ -85,7 +85,8 @@ def get_recipes(response: Response):
     try:
         first_item = next(result)
     except StopIteration:
-        response.status_code = status.HTTP_404_NOT_FOUND
+        response.status_code = status.HTTP_204_NO_CONTENT
+        session.close()
         return "[ERR]NOT-FOUND - No recipes found on the database"
     return first_item, result
 
@@ -94,7 +95,8 @@ def get_recipes(response: Response):
 def get_recipe_by_title_query(recipe_title_query: str, response: Response):
     result = sqlalchemy_select_query_by_title(recipe_title_query)
     if result[0] is None:
-        response.status_code = status.HTTP_404_NOT_FOUND
+        response.status_code = status.HTTP_204_NO_CONTENT
+        session.close()
         return "[ERR]NOT-FOUND - The provided recipe does not exist"
     return result
 
