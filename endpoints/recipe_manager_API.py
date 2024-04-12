@@ -88,6 +88,7 @@ def get_recipes(response: Response):
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
         return "[ERR]NOT-FOUND - No recipes found on the database"
+    session.close()
     return first_item, result
 
 
@@ -98,6 +99,7 @@ def get_recipe_by_title_query(recipe_title_query: str, response: Response):
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
         return "[ERR]NOT-FOUND - The provided recipe does not exist"
+    session.close()
     return result
 
 
