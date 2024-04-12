@@ -94,7 +94,9 @@ def get_recipes(response: Response):
 
 @app.get("/recipes/{recipe_title}", status_code=status.HTTP_200_OK)
 def get_recipe_by_title_query(recipe_title_query: str, response: Response):
-    result = sqlalchemy_select_query_by_title(recipe_title_query)
+    db = Database()
+    session = Session(db.engine)
+    result = db.sqlalchemy_select_query_by_title(recipe_title_query, session)
     if result[0] is None:
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
