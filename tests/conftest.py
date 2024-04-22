@@ -1,11 +1,32 @@
 import pytest
 from sqlalchemy.orm import Session
-from recipe_manager.recipe import Recipe
-from recipe_manager.database.database import Database
+from recipe_manager.Recipe import Recipe
+from database.Database import Database
 
 
 @pytest.fixture
-def create_recipe_object_using_lbs():
+def recipe_with_special_chars():
+    recipe_dict = {"title": "      apple           pie       ",
+                   "description": "    A    basic     american     apple        pie      ",
+                   "instructions": "      BIG      STRING     ",
+                   "category": "      grains    ",
+                   "ingredients": [{"ingredient": "      apple      ",
+                                    "quantity": 1,
+                                    "unit": "lb"},
+                                   {"ingredient": "   flour    ",
+                                    "quantity": 0.55,
+                                    "unit": "lb"},
+                                   {"ingredient": "  milk  ",
+                                    "quantity": 0.55,
+                                    "unit": "lb"},
+                                   {"ingredient": "  eggs  ",
+                                    "quantity": 0.8,
+                                    "unit": "lb"}]}
+    yield recipe_dict
+
+
+@pytest.fixture
+def create_recipe_object():
     """
     Creates a recipe object using lbs as the measuring unit
     """
@@ -13,14 +34,18 @@ def create_recipe_object_using_lbs():
                    "description": "A basic american apple pie",
                    "instructions": "BIG STRING",
                    "category": "grains",
-                   "ingredients": [{"ingredient": "apple",
-                                    "quantity": "1_lb"},
-                                   {"ingredient": "flour",
-                                    "quantity": "0.55_lb"},
-                                   {"ingredient": "milk",
-                                    "quantity": "0.55_lb"},
+                   "ingredients": [{"ingredient": " apple ",
+                                    "quantity": 2,
+                                    "unit": "lb"},
+                                   {"ingredient": "122 ",
+                                    "quantity": 0.55,
+                                    "unit": "lb"},
+                                   {"ingredient": " pasta ",
+                                    "quantity": 0.55,
+                                    "unit": "lb"},
                                    {"ingredient": "eggs",
-                                    "quantity": "0.8_lb"}]}
+                                    "quantity": 0.8,
+                                    "unit": "lb"}]}
     recipe_obj = Recipe(recipe_dict["title"], recipe_dict["description"], recipe_dict["instructions"],
                         recipe_dict["category"])
     recipe_obj.add_ingredients(recipe_dict["ingredients"])
@@ -34,13 +59,17 @@ def create_recipe_object_using_oz():
                    "instructions": "BIG STRING",
                    "category": "grains",
                    "ingredients": [{"ingredient": "pasta",
-                                    "quantity": "17.6_oz"},
+                                    "quantity": 17.6,
+                                    "unit": "oz"},
                                    {"ingredient": "sour cream",
-                                    "quantity": "8.8_oz"},
+                                    "quantity": 8.8,
+                                    "unit": "oz"},
                                    {"ingredient": "cream cheese",
-                                    "quantity": "8.8_oz"},
+                                    "quantity": 8.8,
+                                    "unit": "oz"},
                                    {"ingredient": "milk",
-                                    "quantity": "14_oz"}]}
+                                    "quantity": 14,
+                                    "unit": "oz"}]}
     recipe_obj = Recipe(recipe_dict["title"], recipe_dict["description"], recipe_dict["instructions"],
                         recipe_dict["category"])
     recipe_obj.add_ingredients(recipe_dict["ingredients"])
@@ -67,7 +96,7 @@ def database_session(database_instance, scope="session"):
 
 
 @pytest.fixture
-def database_empty_instance(database_instance, database_session, scope="function"):
+def database_empty_instance(database_instance, database_session, scope="session"):
     """
     Creates an empty database instance, uses the "database_instance" and "database_session"
     """
