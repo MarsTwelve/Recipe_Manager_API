@@ -1,6 +1,6 @@
 import pytest
 from hamcrest import assert_that, equal_to
-from recipe_manager.recipe import Recipe
+from recipe_manager.Recipe import Recipe
 
 
 def test_create_recipe_function():

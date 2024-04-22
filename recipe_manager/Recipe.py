@@ -28,6 +28,7 @@ class Recipe:
         Receives a list of python dictionaries, containing the ingredients and quantities of a given recipe,
         then it constructs multiple Ingredient objects and stores it within its own instance.
     """
+
     def __init__(self, title, description, instructions, category):
         """
         Initializes all the necessary class variables to make a Recipe object.
@@ -75,7 +76,8 @@ class Recipe:
         None
         """
         for ingredient in ingredients:
-            self.ingredients.append(Ingredients(ingredient["ingredient"], ingredient["quantity"]))
+            print(ingredients)
+            self.ingredients.append(Ingredients(ingredient["ingredient"], ingredient["quantity"], ingredient["unit"]))
 
 
 class Ingredients:
@@ -94,7 +96,8 @@ class Ingredients:
     -------
 
     """
-    def __init__(self, ingredient, quantity):
+
+    def __init__(self, ingredient, quantity, unit):
         """
         Initializes all the necessary class variables to make a Recipe object.
 
@@ -107,9 +110,12 @@ class Ingredients:
         """
         self.ingredient = ingredient
         self.quantity = quantity
+        self.unit = unit
 
     def __getitem__(self, item):
         if item == "ingredient":
             return self.ingredient
         if item == "quantity":
             return self.quantity
+        if item == "unit":
+            return self.unit
