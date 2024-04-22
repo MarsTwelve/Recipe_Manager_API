@@ -81,16 +81,21 @@ async def create_recipe(recipe: RecipeModel, response: Response):
 
     db = Database()
     session = Session(db.engine)
-    recipe_dump = recipe.model_dump()
-    recipe_obj = Recipe(recipe_dump["title"],
-                        recipe_dump["description"],
-                        recipe_dump["instructions"],
-                        recipe_dump["category"])
-    recipe_obj.add_ingredients(recipe_dump["ingredients"])
-    if validate_if_document_exists(recipe_dump["title"], session):
+
+    if RecipeManagerValidator.validate_if_document_exists(validated_recipe["recipe_title"], session):
         response.status_code = status.HTTP_409_CONFLICT
-        return "[WARN]DUPLICATE - This recipe already exists"
+        session.close()
+        return "[ERR]DUPLICATE - This recipe already exists."
+
+    recipe_obj = Recipe(validated_recipe["recipe_title"],
+                        validated_recipe["recipe_description"],
+                        validated_recipe["recipe_category"],
+                        validated_recipe["recipe_instructions"])
+
+    recipe_obj.add_ingredients(validated_recipe["ingredients"])
+
     commit = db.sqlalchemy_insert_recipe(recipe_obj, session)
+    session.close()
     return commit
 
 
