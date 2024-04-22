@@ -3,7 +3,7 @@ Main Database Operations for the Recipe Manager
 """
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
-from recipe_manager.database.database_model import RecipeModel, IngredientsModel, Base
+from database.database_model import RecipeModel, IngredientsModel, Base
 from recipe_manager.exeptions import RecipeNotFoundError
 
 
@@ -67,14 +67,15 @@ class Database:
                                           .order_by(RecipeModel.id)))
         result = session.execute(select_query_ingredients_stmt).scalar()
         if result:
-            recipe = {"recipe_title": result.recipe_title,
-                      "recipe_description": result.recipe_description,
-                      "recipe_instructions": result.recipe_instructions,
-                      "recipe_category": result.recipe_category}
             ingredient_quantity = {}
             for row in result.ingredients:
                 ingredient_quantity[row.ingredient] = row.quantity
-            return recipe, ingredient_quantity
+            recipe = {"recipe_title": result.recipe_title,
+                      "recipe_description": result.recipe_description,
+                      "recipe_instructions": result.recipe_instructions,
+                      "recipe_category": result.recipe_category,
+                      "ingredients": ingredient_quantity}
+            return recipe
         raise RecipeNotFoundError
 
     def sqlalchemy_select_all(self, session: Session):
