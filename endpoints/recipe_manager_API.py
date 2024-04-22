@@ -190,22 +190,27 @@ async def patch_update_recipe(update_recipe: UpdateRecipe, response: Response):
     return result
 
 
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        session.close()
-        return "[ERR]INVALID-ATTRIBUTE - This attribute does not exist or doesnt accept update parameters"
-    response.status_code = status.HTTP_204_NO_CONTENT
-    session.close()
-    return "[ERR]NOT-FOUND - The provided recipe does not exist"
-
-
-@app.delete("/recipes", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/recipes", status_code=status.HTTP_200_OK)
 async def delete_recipe(recipe_title_query: str, response: Response):
+    valid_input = RecipeManagerValidator(recipe_title_query)
+    treated_input = valid_input.space_treatment_validation()
+
+    if not treated_input:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return "[ERR]EMPTY_FIELD - Empty fields are not allowed. Please provide a value."
+
+    if valid_input.has_invalid_characters():
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return f"[ERR]VALIDATION_FAILED - Special characters and digits are not allowed here --> {recipe_title_query}"
+
     db = Database()
     session = Session(db.engine)
-    if validate_if_document_exists(recipe_title_query, session):
-        result = db.sqlalchemy_delete_recipe(recipe_title_query, session)
+
+    if not valid_input.validate_if_document_exists(treated_input, session):
+        response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
-        return result
-    response.status_code = status.HTTP_204_NO_CONTENT
+        return "[ERR]NOT-FOUND - The provided recipe does not exist"
+
+    db.sqlalchemy_delete_recipe(treated_input, session)
     session.close()
-    return "[ERR]NOT-FOUND - The provided recipe does not exist"
+    return "The recipe was successfully deleted"
