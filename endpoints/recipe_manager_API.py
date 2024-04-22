@@ -104,13 +104,16 @@ def get_recipes(response: Response):
     db = Database()
     session = Session(db.engine)
     result = db.sqlalchemy_select_all(session)
+
     try:
         first_item = next(result)
+
     except StopIteration:
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
-        return "[ERR]NOT-FOUND - No recipes found on the database"
+        return "[ERR]NOT_FOUND - No recipes found on the database."
     session.close()
+
     return first_item, result
 
 
@@ -133,7 +136,6 @@ def get_recipe_by_title_query(recipe_title_query: str, response: Response):
     if not valid_query.validate_if_document_exists(treated_input, session):
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
-        return "[ERR]NOT-FOUND - The provided recipe does not exist"
         return "[ERR]NOT_FOUND - The provided recipe does not exist."
 
     recipe = db.sqlalchemy_select_query_by_title(treated_input, session)
