@@ -47,17 +47,17 @@ class IngredientModel(BaseModel):
 
 
 class RecipeModel(BaseModel):
-    title: str
-    description: str | None = Field(default=None, title="Description of the recipe", max_length=200)
-    ingredients: List[IngredientModel]
-    instructions: str = Field(title="Instructions of the recipe")
+    title: str = Field(title="The title of the recipe", max_length=25)
+    description: str = Field(title="Description of the recipe", max_length=150)
+    instructions: str = Field(title="Instructions of the recipe", max_length=500)
     category: str
+    ingredients: List[IngredientModel]
 
 
 class UpdateRecipe(BaseModel):
-    title: str
-    update_attr: str
-    update_param: str
+    title: str = Field(title="the title of the recipe", max_length=25)
+    update_attr: str = Field(title="the attribute of the recipe to update", max_length=25)
+    update_param: str = Field(title="the actual update parameter", max_length=25)
 
 
 @app.post("/recipes", status_code=status.HTTP_201_CREATED)
