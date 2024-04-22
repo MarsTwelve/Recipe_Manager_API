@@ -89,12 +89,9 @@ class Ingredients:
     ingredient: str
         contains the ingredient name
     quantity: str
-        contains the quantity of the given ingredient,
-        and also the unit used to measure said ingredient (ounces/oz, pounds/lbs or grams/g)
-
-    Methods
-    -------
-
+        contains the quantity of the given ingredient
+    unit: str
+        Contains the unit used to measure said ingredient (ounces/oz, pounds/lb or grams/gr)
     """
 
     def __init__(self, ingredient, quantity, unit):
@@ -106,7 +103,9 @@ class Ingredients:
         :param ingredient: str
             The actual name of the ingredient
         :param quantity: str
-            The quantity of said ingredient, accompanied by its respective unit, denoting witch unit the quantity is in
+            The quantity of said ingredient,
+        :param unit: str
+            The unit witch the ingredient is measured by
         """
         self.ingredient = ingredient
         self.quantity = quantity
