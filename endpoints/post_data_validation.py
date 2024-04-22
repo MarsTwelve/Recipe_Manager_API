@@ -2,6 +2,18 @@ from endpoints.RecipeManagerValidator import RecipeManagerValidator
 
 
 def validate_recipe_input(recipe_dict):
+    """
+    Validates the user submitted recipe information, validating against empty fields, invalid chars such as special
+    characters and digits (underscores are allowed)
+    :param recipe_dict: dict
+        a dicy that contains the information about the recipe
+    :return:
+        :returns: treated_recipe: dict
+            In the case the validation passes, a new dict called treated_recipe is returned, ready for insertion on the
+            database
+        :returns: str
+            In the case the validation fails, it should return a string that contains the error found during validation
+    """
     treated_recipe = {}
 
     for value in recipe_dict:
@@ -42,6 +54,27 @@ def validate_recipe_input(recipe_dict):
 
 
 def validate_ingredients_list(ingredients_list):
+    """
+    Validates the list of ingredients contained within the recipe dict
+    :param ingredients_list: list
+        a list of dicts containing information about the ingredients utilized on the recipe
+        eg: [
+                {
+                    ingredient: flour,
+                    quantity: 2,
+                    unit: lb,
+                },
+                {
+                    ingredient: generic powder,
+                    quantity: 0.5,
+                    unit: lb,
+                },
+            ]
+    :return: treated_ingredients_list: list
+        :returns in the case the validation succeeds a list of dicts, witch passed through validation successfully
+        :returns a string in the case validation failed, explaining the specific error that caused the validation to
+        fail, such as empty fields, or invalid chars eg: Fl0ur or Whe@t
+    """
     treated_ingredients_list = []
 
     for ingredient_dict in ingredients_list:
