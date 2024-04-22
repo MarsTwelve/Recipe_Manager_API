@@ -40,10 +40,10 @@ metadata_tags = [
 ]
 
 
-# Add unity later and change quantity back to float type
 class IngredientModel(BaseModel):
-    ingredient: str
-    quantity: str
+    ingredient: str = Field(title="the name of the ingredient", max_length=25)
+    quantity: float = Field(title="quantity used in the recipe")
+    unit: str = Field(title="the unit the measured ingredient is in", min_length=2, max_length=2)
 
 
 class RecipeModel(BaseModel):
