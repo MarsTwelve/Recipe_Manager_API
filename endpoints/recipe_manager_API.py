@@ -62,6 +62,23 @@ class UpdateRecipe(BaseModel):
 
 @app.post("/recipes", status_code=status.HTTP_201_CREATED)
 async def create_recipe(recipe: RecipeModel, response: Response):
+    recipe_dict = recipe.model_dump()
+
+    if len(recipe_dict["ingredients"]) > 20:
+        response.status_code = status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
+        return ("[ERR]LIST_TOO_LONG - You provided a list of ingredients that is too long. "
+                "The list of ingredients should have a maximum of 20 ingredients")
+
+    if not recipe_dict["ingredients"]:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return ("[ERR]EMPTY_LIST - You provided a list of ingredients that is empty. "
+                "The list of ingredients should have at least one ingredient")
+
+    validated_recipe = validate_recipe_input(recipe_dict)
+    if not isinstance(validated_recipe, dict):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return validated_recipe
+
     db = Database()
     session = Session(db.engine)
     recipe_dump = recipe.model_dump()
