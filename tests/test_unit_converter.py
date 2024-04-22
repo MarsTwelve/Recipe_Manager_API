@@ -1,5 +1,5 @@
 from hamcrest import assert_that, equal_to
-from recipe_manager.unit_conversion import UnitConverter
+from recipe_manager.UnitConverter import UnitConverter
 
 
 def test_unit_converter_parser_lb(create_recipe_object_using_lbs):
