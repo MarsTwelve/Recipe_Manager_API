@@ -23,7 +23,7 @@ You will be able to:
 app = FastAPI(title="Recipe_Manager_API",
               description=description,
               summary="A recipe manager to manage recipes",
-              version="0.7",
+              version="0.7.1",
               terms_of_service="https://example.com/tos",
               contact={
                   "name": "Matheus S. Fernandes",
