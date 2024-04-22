@@ -116,15 +116,29 @@ def get_recipes(response: Response):
 
 @app.get("/recipes/{recipe_title}", status_code=status.HTTP_200_OK)
 def get_recipe_by_title_query(recipe_title_query: str, response: Response):
+    valid_query = RecipeManagerValidator(recipe_title_query)
+    treated_input = valid_query.space_treatment_validation()
+
+    if not treated_input:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return "[ERR]EMPTY_FIELD - Empty fields are not allowed. Please provide a value."
+
+    if valid_query.has_invalid_characters():
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return f"[ERR]VALIDATION_FAILED - Special characters and digits are not allowed here --> {recipe_title_query}"
+
     db = Database()
     session = Session(db.engine)
-    result = db.sqlalchemy_select_query_by_title(recipe_title_query, session)
-    if result[0] is None:
+
+    if not valid_query.validate_if_document_exists(treated_input, session):
         response.status_code = status.HTTP_204_NO_CONTENT
         session.close()
         return "[ERR]NOT-FOUND - The provided recipe does not exist"
+        return "[ERR]NOT_FOUND - The provided recipe does not exist."
+
+    recipe = db.sqlalchemy_select_query_by_title(treated_input, session)
     session.close()
-    return result
+    return recipe
 
 
 @app.patch("/recipes", status_code=status.HTTP_200_OK)
