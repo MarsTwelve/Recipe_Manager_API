@@ -143,17 +143,53 @@ def get_recipe_by_title_query(recipe_title_query: str, response: Response):
 
 @app.patch("/recipes", status_code=status.HTTP_200_OK)
 async def patch_update_recipe(update_recipe: UpdateRecipe, response: Response):
+    update_parameters = update_recipe.model_dump()
+    treated_update_recipe = {}
+
+    for dict_attr, dict_param in update_parameters.items():
+        valid_input = RecipeManagerValidator(dict_param)
+        treated_input = valid_input.space_treatment_validation()
+
+        if not treated_input:
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return "[ERR]EMPTY_FIELD - Empty fields are not allowed. Please provide a value."
+
+        if valid_input.has_invalid_characters():
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return (f"[ERR]VALIDATION_FAILED - Special characters and digits are not allowed here"
+                    f" --> {dict_attr}:{dict_param}")
+
+        if dict_attr == "title":
+            treated_update_recipe["recipe_title"] = treated_input
+            continue
+
+        if dict_attr == "update_param":
+            treated_update_recipe["update_param"] = treated_input
+            continue
+
+        if dict_attr == "update_attr":
+            if not valid_input.has_valid_update_attr():
+                response.status_code = status.HTTP_400_BAD_REQUEST
+                return "[ERR]INVALID_ATTRIBUTE - This attribute does not exist or doesnt accept update parameters"
+
+            treated_update_recipe["update_attr"] = treated_input
+
     db = Database()
     session = Session(db.engine)
-    update_parameters = update_recipe.model_dump()
-    if validate_if_document_exists(update_parameters["title"], session):
-        if validate_if_update_attr_is_valid(update_parameters["update_attr"]):
-            result = db.sqlalchemy_update_recipe_title(update_parameters["title"],
-                                                       update_parameters["update_attr"],
-                                                       update_parameters["update_param"],
-                                                       session)
-            session.close()
-            return result
+
+    if not RecipeManagerValidator.validate_if_document_exists(treated_update_recipe["recipe_title"], session):
+        response.status_code = status.HTTP_204_NO_CONTENT
+        session.close()
+        return "[ERR]NOT_FOUND - The provided recipe does not exist"
+
+    result = db.sqlalchemy_update_recipe_title(treated_update_recipe["recipe_title"],
+                                               treated_update_recipe["update_attr"],
+                                               treated_update_recipe["update_param"],
+                                               session)
+    session.close()
+    return result
+
+
         response.status_code = status.HTTP_400_BAD_REQUEST
         session.close()
         return "[ERR]INVALID-ATTRIBUTE - This attribute does not exist or doesnt accept update parameters"
