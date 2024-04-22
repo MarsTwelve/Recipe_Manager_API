@@ -2,10 +2,10 @@ from typing import List
 from fastapi import FastAPI, status, Response
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
-from recipe_manager.recipe import Recipe
-from recipe_manager.database.database import Database
-from recipe_manager.database.database_validation import (validate_if_document_exists,
-                                                         validate_if_update_attr_is_valid)
+from recipe_manager.Recipe import Recipe
+from database.Database import Database
+from endpoints.post_data_validation import validate_recipe_input
+from endpoints.RecipeManagerValidator import RecipeManagerValidator
 
 description = """
 Recipe Manager API helps you manage all of your recipes
