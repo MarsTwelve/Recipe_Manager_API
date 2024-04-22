@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import String, ForeignKey
 from typing import List
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -10,7 +11,7 @@ class Base(DeclarativeBase):
 class RecipeModel(Base):
     __tablename__ = "recipe_information"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(String(32), primary_key=True, default=lambda: uuid.uuid4().hex, unique=True)
     recipe_title: Mapped[str] = mapped_column(String(50))
     recipe_description: Mapped[str] = mapped_column(String(50))
     recipe_instructions: Mapped[str] = mapped_column(String(450))
