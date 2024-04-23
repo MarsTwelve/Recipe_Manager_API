@@ -1,15 +1,13 @@
 
 # Recipe Manager API
-## The easiest way to manage your recipes.
+### The easiest way to manage your recipes.
 
 ---
 ![GitHub watchers](https://img.shields.io/github/watchers/MarsTwelve/Recipe_Manager_API)
 ![GitHub Repo stars](https://img.shields.io/github/stars/MarsTwelve/Recipe_Manager_API)\
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)![GitHub forks](https://img.shields.io/github/forks/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)
----
 
 ## Description
-<br />
 The Recipe Manager API is a small project developed using python, FastAPI and a MySQL
 database, witch supports CRUD operations. The main objective is to create an easy way to
 organize and store diverse types of recipes. Some of the future objectives are to implement
@@ -18,8 +16,6 @@ Amazon AWS or other cloud service, for better app performance.
 
 ---
 ## Endpoints Description
-<br />
-
 - Through the **post**`/recipe`, you are able to create new recipes, sending relevant recipe information, and the recipe ingredients
 
 
