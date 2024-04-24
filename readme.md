@@ -41,12 +41,10 @@ Amazon AWS or other cloud service, for better app performance.
 - ### Setting up the database
     In order to run this pyton script, firstly you will need to install MySQL, this is due to the
     API currently only being able to be run locally. I also recommend installing DBeaver, if you wish
-    to see and analyze the data you are working with.
-<br />
-
-      [MySQL for Linux](https://dev.mysql.com/downloads/)<br>
-      [DBeaver for Linux](https://dbeaver.io/download/)<br>
-<br />
+    to see and analyze the data you are working with.<br>
+	
+&emsp;&emsp;[MySQL for Linux](https://dev.mysql.com/downloads/)<br>
+&emsp;&emsp;[DBeaver for Linux](https://dbeaver.io/download/)<br>
 <br />
 <br />
 
