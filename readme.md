@@ -52,7 +52,6 @@ Amazon AWS or other cloud service, for better app performance.
   After you installed MySQL you should run this command within your IDE terminal, to ensure the python libraries 
   utilized are properly installed.
 <br />
-<br />
 
 ```
 pip install -r requirements.txt
@@ -63,13 +62,14 @@ pip install -r requirements.txt
 - ### Initializing the API
   After you ran the command above, you can now run this command to initialize the api.<br>
 <br />
+
 ```
 uvicorn endpoints.recipe_manager_API:app --reload
 ```
 <br />
-&emsp;&emsp;this will start the api in your local host, so you can utilize the api endpoints within your<br> 
-&emsp;&emsp;own machine, in a local instance. Later on it is planned to implement a Cloud Service
-&emsp;&emsp;host with docker containers, in order to facilitate usage.
+&emsp;&emsp;this will start the api in your local host, so you can utilize the api endpoints within your own machine, 
+&emsp;&emsp;in a local instance. Later on it is planned to implement a Cloud Service host with docker containers, 
+&emsp;&emsp;in order to facilitate usage.
 <br />
 <br />
 
@@ -81,6 +81,8 @@ uvicorn endpoints.recipe_manager_API:app --reload
 - ### Running tests
   Within this script there are pytest tests implemented. If you desire to run the test file to assert everything works
   properly you can use this command to show the test results in a verbose manner.
+<br />
+
 ```
 pytest -v
 ```
