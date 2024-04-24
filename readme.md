@@ -4,8 +4,9 @@
 
 ---
 ![GitHub watchers](https://img.shields.io/github/watchers/MarsTwelve/Recipe_Manager_API)
-![GitHub Repo stars](https://img.shields.io/github/stars/MarsTwelve/Recipe_Manager_API)\
-![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)![GitHub forks](https://img.shields.io/github/forks/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)
+![GitHub Repo stars](https://img.shields.io/github/stars/MarsTwelve/Recipe_Manager_API)<br>
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)
+![GitHub forks](https://img.shields.io/github/forks/MarsTwelve/Recipe_Manager_API?style=flat-square&labelColor=2a3439)
 
 ## Description
 The Recipe Manager API is a small project developed using python, FastAPI and a MySQL
@@ -13,8 +14,13 @@ database, witch supports CRUD operations. The main objective is to create an eas
 organize and store diverse types of recipes. Some of the future objectives are to implement
 a frontend to enhance user experience, and also containerize and host this on a webservice such as
 Amazon AWS or other cloud service, for better app performance.
+<br />
 
 ---
+<br />
+<br />
+<br />
+
 ## Endpoints Description
 - Through the **post**`/recipe`, you are able to create new recipes, sending relevant recipe information, and the recipe ingredients
 
@@ -31,21 +37,21 @@ Amazon AWS or other cloud service, for better app performance.
 - Through the **delete**`/recipe`, you are able to delete a specific recipe
 
 ---
+<br />
+<br />
+
 ## Installing and Running
+- ### Setting up the database
+    In order to run this pyton script, firstly you will need to install MySQL, this is due to the
+    API currently only being able to be run locally. I also recommend installing DBeaver, if you wish
+    to see and analyze the data you are working with.
 <br />
-
-### Setting up the database
-In order to run this pyton script, firstly you will need to install MySQL, this is due to the
-API currently only being able to be run locally. I also recommend installing DBeaver, if you wish
-to see and analyze the data you are working with.
-
-[MySQL for Linux](https://dev.mysql.com/downloads/)<br>
-[DBeaver for Linux](https://dbeaver.io/download/)<br>
+    [MySQL for Linux](https://dev.mysql.com/downloads/)<br>
+    [DBeaver for Linux](https://dbeaver.io/download/)<br>
 <br />
 <br />
 <br />
 
----
 ### Installing the dependencies
 After you installed MySQL you should run this command within your IDE terminal, to ensure the python libraries utilized
 are properly installed.
