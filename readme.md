@@ -67,16 +67,19 @@ pip install -r requirements.txt
 uvicorn endpoints.recipe_manager_API:app --reload
 ```
 <br />
-&emsp;&emsp;this will start the api in your local host, so you can utilize the api endpoints within your own machine, 
-&emsp;&emsp;in a local instance. Later on it is planned to implement a Cloud Service host with docker containers, 
-&emsp;&emsp;in order to facilitate usage.
+&emsp;&emsp;this will start the api in your local host, so you can utilize the api endpoints within your own machine, in a local instance.<br> 
+&emsp;&emsp;Later on it is planned to implement a Cloud Service host with docker containers, in order to facilitate usage.
+<br />
 <br />
 <br />
 
 - ### Utilizing the API
-  Now the API should be online, you can access it through your web browser, by typing in your local host
-  address, it is recommended utilizing swagger for better overview and usage of the endpoints, as well to have
+  Now the API should be online, you can access it through your web browser, by typing in your local host address, we recommend
+  utilizing swagger for better overview and usage of the endpoints, as well to have
   access to a basic documentation of the API in general and its endpoints.
+  <br />
+  <br />
+  <br />
 
 - ### Running tests
   Within this script there are pytest tests implemented. If you desire to run the test file to assert everything works
