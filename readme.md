@@ -43,8 +43,8 @@ Amazon AWS or other cloud service, for better app performance.
     API currently only being able to be run locally. I also recommend installing DBeaver, if you wish
     to see and analyze the data you are working with.
 <br />
-  [MySQL for Linux](https://dev.mysql.com/downloads/)<br>
-  [DBeaver for Linux](https://dbeaver.io/download/)<br>
+  ![MySQL for Linux](https://dev.mysql.com/downloads/)<br>
+  ![DBeaver for Linux](https://dbeaver.io/download/)<br>
 <br />
 <br />
 <br />
