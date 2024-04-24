@@ -20,19 +20,19 @@ Amazon AWS or other cloud service, for better app performance.
 <br />
 
 ## Endpoints
-- Through the **post**`/recipe`, you are able to create new recipes, sending relevant recipe information, and the recipe ingredients
+- Through the **POST**`/recipe`, you are able to create new recipes, sending relevant recipe information, and the recipe ingredients
 
 
-- Through the **get**`/recipe`,  you are able to request all recipes currently stored on the database
+- Through the **GET**`/recipe`,  you are able to request all recipes currently stored on the database
 
 
-- Through the **get**`/recipe{_recipe_query_title_}`, you are able to search for specific recipes, by recipe title
+- Through the **GET**`/recipe{_recipe_query_title_}`, you are able to search for specific recipes, by recipe title
 
 
-- Through the **patch**`/recipe`, you are able to update the information about a specific recipe
+- Through the **PATCH**`/recipe`, you are able to update the information about a specific recipe
 
 
-- Through the **delete**`/recipe`, you are able to delete a specific recipe
+- Through the **DELETE**`/recipe`, you are able to delete a specific recipe
 
 ---
 <br />
