@@ -18,10 +18,8 @@ Amazon AWS or other cloud service, for better app performance.
 
 ---
 <br />
-<br />
-<br />
 
-## Endpoints Description
+## Endpoints
 - Through the **post**`/recipe`, you are able to create new recipes, sending relevant recipe information, and the recipe ingredients
 
 
@@ -37,7 +35,6 @@ Amazon AWS or other cloud service, for better app performance.
 - Through the **delete**`/recipe`, you are able to delete a specific recipe
 
 ---
-<br />
 <br />
 
 ## Installing and Running
