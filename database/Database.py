@@ -2,6 +2,7 @@
 Main Database Operations for the Recipe Manager
 """
 from sqlalchemy import create_engine, select
+from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import Session
 from database.database_model import RecipeModel, IngredientsModel, Base
 from recipe_manager.exeptions import RecipeNotFoundError
@@ -12,6 +13,9 @@ class Database:
     def __init__(self):
         # Create database engine
         self.engine = create_engine("mysql+pymysql://root:password@localhost/recipe_manager")
+        if not database_exists(self.engine.url):
+            create_database(self.engine.url)
+
         Base.metadata.create_all(self.engine)
 
     def sqlalchemy_insert_recipe(self, recipe_obj, session: Session):
