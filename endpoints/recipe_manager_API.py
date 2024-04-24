@@ -36,7 +36,10 @@ app = FastAPI(title="Recipe_Manager_API",
               })
 
 metadata_tags = [
-
+    {
+        "name": "post_recipes",
+        "description": "Add recipes to the database"
+    }
 ]
 
 
